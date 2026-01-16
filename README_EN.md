@@ -2,27 +2,53 @@
 
 [中文版本](README.md)
 
-A set of three Python scripts for batch processing music file renaming and deduplication.
+A collection of Python scripts for batch processing music file renaming, randomization, and deduplication. Now featuring enhanced V2 versions with advanced randomization capabilities.
 
 ## 📂 Script Overview
 
-### 1. Add_Randomize_songs.py
-**Function**: Adds random letter prefixes to music files for pseudo-random ordering  
-**Purpose**: Creates a shuffle effect when players sort files alphabetically by adding prefixes like `A_SongName.mp3`, `K_SongName.mp3`  
+### 🎲 Random Prefix Tools (Single Letter Version)
+For basic randomization needs, providing simple single-letter random prefixes.
+
+#### 1. Add_Randomize_songs.py
+**Function**: Adds random **single-letter** prefixes to music files for basic pseudo-random ordering  
+**Purpose**: Creates a shuffle effect by adding random letter prefixes like `A_SongName.mp3`  
 **Features**: 
 - Supports multiple audio formats (MP3, FLAC, WMA, M4A, etc.)
 - Automatically skips files that already have prefixes
-- Generates random uppercase letter prefixes
+- Generates 26 different uppercase letter prefix combinations
 
-### 2. Remove_Randomize_songs.py
-**Function**: Removes random letter prefixes added by Add_Randomize  
+#### 2. Remove_Randomize_songs.py
+**Function**: Removes random **single-letter** prefixes added by Add_Randomize  
 **Purpose**: Restores original music filenames by removing "Letter_" prefixes  
 **Features**: 
-- Intelligently identifies prefix format
+- Intelligently identifies single-letter prefix format
 - Prevents filename conflicts
 - Safe restoration without affecting non-prefixed files
 
-### 3. Find_Duplicate_songs.py
+### 🔢 Random Prefix Tools (Three-Character V2 Version)
+**New!** Provides enhanced randomization with 46,656 prefix combinations.
+
+#### 3. Add_Randomize_songs_V2.py
+**Function**: Adds random **three-character** prefixes to music files for advanced pseudo-random ordering  
+**Purpose**: Provides more thorough randomization with prefixes like `ABC_SongName.mp3` (e.g., `X7K_SongName.mp3`)  
+**Features**: 
+- **46,656 combinations**: First character A-Z, second and third characters A-Z or 0-9
+- Enhanced randomness: Compared to V1 (26 combinations), V2 offers 46,656 combinations
+- Supports additional audio formats (including .opus)
+- True randomization: Shuffles file order before adding prefixes
+- Intelligently identifies existing prefixes to avoid duplicate additions
+
+#### 4. Remove_Randomize_songs_V2.py
+**Function**: Removes **three-character** prefixes added by V2 and is compatible with V1 single-letter prefixes  
+**Purpose**: Intelligently removes various prefix formats to restore original filenames  
+**Features**: 
+- **Dual compatibility**: Supports removing both `ABC_` (three-character) and `A_` (single-letter) prefixes
+- Smart conflict detection: Automatically handles filename conflicts
+- Detailed statistics report: Shows counts of restored, skipped, and no-prefix files
+
+### 🔍 Duplicate Song Finder Tool
+
+#### 5. Find_Duplicate_songs.py
 **Function**: Intelligently finds and handles duplicate song files  
 **Purpose**: Automatically identifies duplicate songs with same title and artist, keeps high-quality versions, removes low-quality duplicates  
 **Features**: 
@@ -35,17 +61,33 @@ A set of three Python scripts for batch processing music file renaming and dedup
 - Generates detailed operation logs
 - Supports song format: `Song Title - Artist.ext` or `Song Title - Artist_Suffix.ext`
 
+## 📊 Version Comparison
+
+| Feature | V1 (Single Letter) | V2 (Three Characters) |
+|---------|-------------------|----------------------|
+| Prefix Format | `A_SongName.mp3` | `ABC_SongName.mp3` |
+| Combinations | 26 combinations | 46,656 combinations |
+| Character Range | A-Z | First char A-Z, second/third chars A-Z/0-9 |
+| Randomness | Basic | Enhanced |
+| Compatibility | V1 format only | Compatible with both V1 and V2 formats |
+| File Shuffling | No | Yes (shuffles before prefixing) |
+
 ## 🚀 Use Cases
 
-1. **Random Playback**: Use `Add_Randomize` to shuffle music playback order
-2. **Restore Organization**: Use `Remove_Randomize` to restore original filenames
-3. **Clean Duplicates**: Use `Find_Duplicate` to clean duplicate songs from music library, saving storage space
+1. **Basic Random Playback**: Use `Add_Randomize` for simple shuffle (26 combinations)
+2. **Advanced Random Playback**: Use `Add_Randomize_V2` for thorough randomization (46,656 combinations)
+3. **Restore Organization**: 
+   - Use `Remove_Randomize` for V1 prefixed files
+   - Use `Remove_Randomize_V2` for both V1 and V2 prefixed files
+4. **Clean Duplicates**: Use `Find_Duplicate` to clean duplicate songs from music library, saving storage space
 
 ## ⚠️ Important Notes
 
 - **Always backup important music files before using these scripts**
+- V2 version provides stronger randomization, suitable for large music libraries
+- V2 removal tool is compatible with both V1 and V2 formats
 - `Find_Duplicate_songs.py` relies on standard filename formats; non-standard formats may not be recognized correctly
-- Use dry run mode to preview operations before performing deletions
+- Always use dry run mode to preview operations before performing deletions
 
 ## 📦 Requirements
 
@@ -55,30 +97,34 @@ A set of three Python scripts for batch processing music file renaming and dedup
 ## 🛠️ Usage Instructions
 
 1. Place the scripts in your music file directory
-2. Run the desired script:
+2. Run the desired script based on your needs:
    ```bash
+   # V1 Version - Basic Randomization (26 combinations)
    python Add_Randomize_songs.py
    python Remove_Randomize_songs.py
+   
+   # V2 Version - Advanced Randomization (46,656 combinations)
+   python Add_Randomize_songs_V2.py
+   python Remove_Randomize_songs_V2.py
+   
+   # Duplicate Song Cleanup
    python Find_Duplicate_songs.py
    ```
 
-## 🔄 Script Functions Details
+## 🎯 Selection Recommendations
 
-### Add_Randomize_songs.py
-Adds a random uppercase letter prefix followed by an underscore to music filenames. This changes the alphabetical order when files are sorted by name, creating a pseudo-random shuffle effect. Files already having the format "Letter_SongName" are skipped.
+- **Small Music Library** (<100 songs): V1 version is sufficient
+- **Medium Music Library** (100-500 songs): V1 version recommended
+- **Large Music Library** (>500 songs): V2 version recommended for better randomization
+- **Uncertain Requirements**: Start with V1, upgrade to V2 when needed
 
-### Remove_Randomize_songs.py
-Reverses the process of Add_Randomize_songs.py by removing the "Letter_" prefix from filenames. It checks if a filename starts with a single uppercase letter followed by an underscore and restores the original name. Handles filename conflicts gracefully.
+## 🔄 Version Migration
 
-### Find_Duplicate_songs.py
-A sophisticated duplicate finder that:
-1. Normalizes song titles and artist names (removes special characters, converts to lowercase)
-2. Groups songs with identical normalized titles and artists
-3. Analyzes quality based on file format, quality suffixes (like `_320k`, `_flac`, `_hq`), and file size
-4. Recommends which files to keep and which to delete
-5. Offers multiple safety modes including backup creation
+Migrating from V1 to V2:
+1. First use `Remove_Randomize_songs.py` to remove V1 prefixes
+2. Then use `Add_Randomize_songs_V2.py` to add V2 prefixes
 
-Perfect for music enthusiasts who need to batch organize music libraries, clean duplicate files, or implement pseudo-random playback.
+Perfect for music enthusiasts who need to batch organize music libraries, clean duplicate files, or implement pseudo-random playback. The V2 version provides powerful randomization features for large music collections.
 
 ---
 
